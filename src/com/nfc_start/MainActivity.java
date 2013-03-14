@@ -1,5 +1,12 @@
 package com.nfc_start;
 
+import iaik.security.dh.ESDHPrivateKey;
+
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -15,7 +22,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -66,13 +72,30 @@ public class MainActivity extends Activity {
             } };
         
         initUI();
-
+        
     }
 
     private void initUI(){
     	tf_Uid = (TextView) findViewById(R.id.tf_uid);
     	tf_Cert = (TextView) findViewById(R.id.tf_cert);
     	tf_Challenge = (TextView) findViewById(R.id.tf_Challenge);
+    }
+    
+    public void esdh_init(){
+        try {
+			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("ESDH", "IAIK");
+			keyGen.initialize(1024);
+			KeyPair dh_keypair = keyGen.generateKeyPair();
+			ESDHPrivateKey esdh_priv_key = (ESDHPrivateKey)dh_keypair.getPrivate();
+			
+			
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchProviderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void getUidPressed(View view) {
