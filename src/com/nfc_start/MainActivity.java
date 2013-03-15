@@ -11,6 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -24,9 +25,13 @@ import android.nfc.tech.NfcF;
 import android.nfc.tech.NfcV;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -88,6 +93,7 @@ public class MainActivity extends Activity {
     	tf_Cert = (TextView) findViewById(R.id.tf_cert);
     	tf_Challenge = (TextView) findViewById(R.id.tf_Challenge);
     	tf_Dh = (TextView) findViewById(R.id.tf_dh);
+
     }
     
     public void getUidPressed(View view) {
@@ -232,5 +238,31 @@ public class MainActivity extends Activity {
 	    Log.d("AES Received: ",res);
 	    tf_Dh.setText(tf_Dh.getText() + "Received Decoded Plaintext: "+res);
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+      MenuInflater inflater = getMenuInflater();
+      inflater.inflate(R.menu.activity_main, menu);
+      return true;
+    } 
+    
+    @Override
+	  public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    case R.id.menuitem1:
+	      Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT)
+	          .show();
+	      break;
+	    case R.id.menuitem2:
+	      Toast.makeText(this, "Menu item 2 selected", Toast.LENGTH_SHORT)
+	          .show();
+	      break;
+
+	    default:
+	      break;
+	    }
+
+	    return true;
+	  } 
     
 }

@@ -2,34 +2,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-     >
-	<ScrollView android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical">
-    <Button
-        android:id="@+id/button_getUid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="getUID" 
-        android:onClick="getUidPressed"/>
+    tools:context=".MainActivity" >
+
+    <ScrollView
+        android:id="@+id/ScrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/button_getUid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="getUidPressed"
+                android:text="getUID" />
+
+        
+    
 
     <EditText
-        android:id="@+id/tf_uid"
-        android:layout_width="wrap_content"
+        android:id="@+id/tf_Challenge"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
 
     <Button
-        android:id="@+id/button_getCert"
+        android:id="@+id/button_getChallenge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="getCert" 
-        android:onClick="getCertPressed"/>
+        android:onClick="getChallengePressed"
+        android:text="getChallenge" />
 
     <EditText
         android:id="@+id/tf_cert"
@@ -38,15 +49,15 @@
         android:ems="10" />
 
     <Button
-        android:id="@+id/button_getChallenge"
+        android:id="@+id/button_getCert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="getChallenge" 
-        android:onClick="getChallengePressed"/> 
+        android:onClick="getCertPressed"
+        android:text="getCert" />
 
     <EditText
-        android:id="@+id/tf_Challenge"
-        android:layout_width="match_parent"
+        android:id="@+id/tf_uid"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10" />
 
@@ -54,18 +65,15 @@
         android:id="@+id/but_keyagree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DH-keyagreement"
-        android:onClick="startDHAgreement" />
+        android:onClick="startDHAgreement"
+        android:text="DH-keyagreement" />
 
     <EditText
         android:id="@+id/tf_dh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textMultiLine" >
-
-        <requestFocus />
-    </EditText>
+        android:inputType="textMultiLine" />
     </LinearLayout>
 </ScrollView>
 </LinearLayout>
