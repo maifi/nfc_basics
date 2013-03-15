@@ -1,11 +1,15 @@
 package com.nfc_start;
 
-import iaik.security.dh.ESDHPrivateKey;
+import iaik.security.cipher.SecretKey;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -38,6 +42,7 @@ public class MainActivity extends Activity {
     private TextView tf_Uid;
     private TextView tf_Cert;
     private TextView tf_Challenge;
+    private TextView tf_Dh;
     
 
     /** Called when the activity is first created. */
@@ -47,6 +52,9 @@ public class MainActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
 
+	    iaik.security.provider.IAIK iaik = new iaik.security.provider.IAIK();
+	    iaik.addAsProvider(true); 
+	    
         mAdapter = NfcAdapter.getDefaultAdapter(this);
         pendingIntent = PendingIntent.getActivity(
           this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
@@ -79,23 +87,7 @@ public class MainActivity extends Activity {
     	tf_Uid = (TextView) findViewById(R.id.tf_uid);
     	tf_Cert = (TextView) findViewById(R.id.tf_cert);
     	tf_Challenge = (TextView) findViewById(R.id.tf_Challenge);
-    }
-    
-    public void esdh_init(){
-        try {
-			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("ESDH", "IAIK");
-			keyGen.initialize(1024);
-			KeyPair dh_keypair = keyGen.generateKeyPair();
-			ESDHPrivateKey esdh_priv_key = (ESDHPrivateKey)dh_keypair.getPrivate();
-			
-			
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchProviderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	tf_Dh = (TextView) findViewById(R.id.tf_dh);
     }
     
     public void getUidPressed(View view) {
@@ -177,5 +169,68 @@ public class MainActivity extends Activity {
 			Log.e("NFC", "Creating Crypto Tag failed");
 		}
         
-    }   
+    }
+    
+    public void startDHAgreement(View view){
+    	VirtualTag vtag = new VirtualTag();
+	    SimReceiver simRec = new SimReceiver();
+	    
+	    //generating shared secret
+	    byte[] sharedAESKey = vtag.generateSharedAESKey(simRec.getPublicKey());
+	    tf_Dh.setText("");
+	    tf_Dh.setText("Shared Secret created on Tag\n");
+	    String sc = Utils.byteArrayToHexString(sharedAESKey);
+	    tf_Dh.setText(tf_Dh.getText() + sc + "\n");
+	    //encrypting with AES
+	    Cipher cipher = null;
+		try {
+			cipher = Cipher.getInstance("Rijndael", "IAIK");
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchProviderException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		tf_Dh.setText(tf_Dh.getText() + "Sender Start Encoding Plaintext...\n");
+	    SecretKey sk = new SecretKey(sharedAESKey, "AES");
+
+	    try {
+			cipher.init(Cipher.ENCRYPT_MODE, sk);
+		} catch (InvalidKeyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    byte[] dataToEncrypt = "Hello u!".getBytes();
+	    
+	    byte[] cipherText = null;
+	    try {
+			cipherText = cipher.doFinal(dataToEncrypt);
+		} catch (IllegalBlockSizeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (BadPaddingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    tf_Dh.setText(tf_Dh.getText() + "Sender Done Encoding Plaintext\n");
+	    tf_Dh.setText(tf_Dh.getText() + "Sending cipher + tags pub key to rec...\n");
+	       
+	    //resolve key on receiver side
+	    byte[] resolvedAESKey = simRec.resolveSharedAESKey(vtag.getPublicKey());
+	    sc = Utils.byteArrayToHexString(resolvedAESKey);
+	    tf_Dh.setText(tf_Dh.getText() + "Receiver Resolved Secret:\n");
+	    tf_Dh.setText(tf_Dh.getText() + sc + "\n");
+	    tf_Dh.setText(tf_Dh.getText() + "Receiver Start Decoding Plaintext\n");
+        //encrypt and check
+	    byte[] receivedBytes = simRec.decrypt(cipherText,resolvedAESKey);
+	    String res = new String(receivedBytes);
+	    Log.d("AES Received: ",res);
+	    tf_Dh.setText(tf_Dh.getText() + "Received Decoded Plaintext: "+res);
+    }
+    
 }

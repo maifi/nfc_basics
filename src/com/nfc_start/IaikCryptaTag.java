@@ -1,6 +1,8 @@
 package com.nfc_start;
 
+import iaik.security.dh.ESDHPublicKey;
 import iaik.security.ecc.util.SignatureFormater;
+
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -8,9 +10,6 @@ import java.util.Arrays;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import android.util.Log;
-import com.nfc_start.Utils;
-import com.nfc_start.ICryptoTag;
-import com.nfc_start.TagCrypto;
 
 /***
  * This class implements the communication with the IAIK "CryptaTag"
@@ -19,7 +18,7 @@ import com.nfc_start.TagCrypto;
  * @author christian.lesjak@student.tugraz.at
  * 
  */
-public class IaikCryptaTag implements ICryptoTag {
+public class IaikCryptaTag implements ITag {
 
 	private IsoDep currentIsoDep;
 
@@ -339,5 +338,17 @@ public class IaikCryptaTag implements ICryptoTag {
 		byte[] real_signature = SignatureFormater.getSignature(new BigInteger(
 				1, r_correct), new BigInteger(1, s_correct));
 		return real_signature;
+	}
+
+	@Override
+	public ESDHPublicKey getPublicKey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public byte[] generateSharedAESKey(ESDHPublicKey otherPublicKey) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -5,6 +5,7 @@ package="com.nfc_start"
 
 <uses-permission android:name="android.permission.NFC" />
     <uses-sdk android:minSdkVersion="15" />
+    
 
 <application
 
