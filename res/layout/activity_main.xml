@@ -60,20 +60,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10" />
-
-    <Button
-        android:id="@+id/but_keyagree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="startDHAgreement"
-        android:text="DH-keyagreement" />
-
-    <EditText
-        android:id="@+id/tf_dh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine" />
     </LinearLayout>
 </ScrollView>
 </LinearLayout>

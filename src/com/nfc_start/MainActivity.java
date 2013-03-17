@@ -1,17 +1,5 @@
 package com.nfc_start;
 
-import iaik.security.cipher.SecretKey;
-
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -30,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +36,7 @@ public class MainActivity extends Activity {
     private TextView tf_Uid;
     private TextView tf_Cert;
     private TextView tf_Challenge;
-    private TextView tf_Dh;
+    
     
 
     /** Called when the activity is first created. */
@@ -92,7 +81,7 @@ public class MainActivity extends Activity {
     	tf_Uid = (TextView) findViewById(R.id.tf_uid);
     	tf_Cert = (TextView) findViewById(R.id.tf_cert);
     	tf_Challenge = (TextView) findViewById(R.id.tf_Challenge);
-    	tf_Dh = (TextView) findViewById(R.id.tf_dh);
+    	
 
     }
     
@@ -176,69 +165,7 @@ public class MainActivity extends Activity {
 		}
         
     }
-    
-    public void startDHAgreement(View view){
-    	VirtualTag vtag = new VirtualTag();
-	    SimReceiver simRec = new SimReceiver();
-	    
-	    //generating shared secret
-	    byte[] sharedAESKey = vtag.generateSharedAESKey(simRec.getPublicKey());
-	    tf_Dh.setText("");
-	    tf_Dh.setText("Shared Secret created on Tag\n");
-	    String sc = Utils.byteArrayToHexString(sharedAESKey);
-	    tf_Dh.setText(tf_Dh.getText() + sc + "\n");
-	    //encrypting with AES
-	    Cipher cipher = null;
-		try {
-			cipher = Cipher.getInstance("Rijndael", "IAIK");
-		} catch (NoSuchAlgorithmException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (NoSuchProviderException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (NoSuchPaddingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		tf_Dh.setText(tf_Dh.getText() + "Sender Start Encoding Plaintext...\n");
-	    SecretKey sk = new SecretKey(sharedAESKey, "AES");
-
-	    try {
-			cipher.init(Cipher.ENCRYPT_MODE, sk);
-		} catch (InvalidKeyException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	    byte[] dataToEncrypt = "Hello u!".getBytes();
-	    
-	    byte[] cipherText = null;
-	    try {
-			cipherText = cipher.doFinal(dataToEncrypt);
-		} catch (IllegalBlockSizeException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (BadPaddingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	    tf_Dh.setText(tf_Dh.getText() + "Sender Done Encoding Plaintext\n");
-	    tf_Dh.setText(tf_Dh.getText() + "Sending cipher + tags pub key to rec...\n");
-	       
-	    //resolve key on receiver side
-	    byte[] resolvedAESKey = simRec.resolveSharedAESKey(vtag.getPublicKey());
-	    sc = Utils.byteArrayToHexString(resolvedAESKey);
-	    tf_Dh.setText(tf_Dh.getText() + "Receiver Resolved Secret:\n");
-	    tf_Dh.setText(tf_Dh.getText() + sc + "\n");
-	    tf_Dh.setText(tf_Dh.getText() + "Receiver Start Decoding Plaintext\n");
-        //encrypt and check
-	    byte[] receivedBytes = simRec.decrypt(cipherText,resolvedAESKey);
-	    String res = new String(receivedBytes);
-	    Log.d("AES Received: ",res);
-	    tf_Dh.setText(tf_Dh.getText() + "Received Decoded Plaintext: "+res);
-    }
-    
+     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
       MenuInflater inflater = getMenuInflater();
@@ -250,8 +177,8 @@ public class MainActivity extends Activity {
 	  public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	    case R.id.menuitem1:
-	      Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT)
-	          .show();
+	    	Intent intent = new Intent(this, DhKeyAgreement.class);
+	        startActivity(intent);
 	      break;
 	    case R.id.menuitem2:
 	      Toast.makeText(this, "Menu item 2 selected", Toast.LENGTH_SHORT)

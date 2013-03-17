@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dh_cipher"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DhKeyAgreement" >
+
+    <Button
+        android:id="@+id/but_keyagree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startDHAgreement"
+        android:text="DH-keyagreement + Encrypt" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Public Key Tag" />
+
+    <EditText
+        android:id="@+id/tf_publickeytag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Plaintext" />
+
+    <EditText
+        android:id="@+id/tf_plaintext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ciphertext" />
+
+    <EditText
+        android:id="@+id/tf_cipher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/button_decrypt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Decrypt" 
+        android:onClick="decrypt"/>
+
+    <EditText
+        android:id="@+id/tf_decryptet_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/tf_keyagreement"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
+
+</LinearLayout>
