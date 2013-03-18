@@ -4,7 +4,6 @@ import iaik.security.dh.ESDHPublicKey;
 
 /***
  *Interface for Tags, Smartcards and also virtual Tags
- *
  * 
  */
 public interface ITag {

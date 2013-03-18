@@ -2,6 +2,10 @@ package com.nfc_start;
 
 import iaik.security.cipher.SecretKey;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -11,8 +15,9 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -45,6 +50,9 @@ public class DhKeyAgreement extends Activity {
 	
 	public void decrypt(View view){
 		
+		//read ciphertext
+		byte[] cipherRead = FileIO.readByteArrayFromFile("cipher.txt",this.getApplicationContext());
+		
 		tf_Dh.setText(tf_Dh.getText() + "Sending cipher + tags pub key to rec...\n");
 	      
 	    //resolve key on receiver side
@@ -54,7 +62,7 @@ public class DhKeyAgreement extends Activity {
 	    tf_Dh.setText(tf_Dh.getText() + sc + "\n");
 	    tf_Dh.setText(tf_Dh.getText() + "Receiver Start Decoding Plaintext\n");
         //encrypt and check
-	    byte[] receivedBytes = simRec.decrypt(cipherText,resolvedAESKey);
+	    byte[] receivedBytes = simRec.decrypt(cipherRead,resolvedAESKey);
 	    String res = new String(receivedBytes);
 	    Log.d("AES Received: ",res);
 	    tf_Dh.setText(tf_Dh.getText() + "Received Decoded Plaintext: "+res);
@@ -108,9 +116,11 @@ public class DhKeyAgreement extends Activity {
 				e1.printStackTrace();
 			}
 		    tf_Dh.setText(tf_Dh.getText() + "Sender Done Encoding Plaintext\n");
-		    String cip = new String(cipherText);
-		    tf_cipher.setText(cip);
-		    tf_publickeytag.setText(vtag.getPublicKey().encode().toString());
+		    
+		    FileIO.writeByteArrayToFile("cipher.txt", cipherText, this.getApplicationContext());
+
+		    tf_cipher.setText(Utils.byteArrayToHexString(cipherText));
+		    tf_publickeytag.setText(Utils.byteArrayToHexString(vtag.getPublicKey().encode()));
 	    }
 
 }
