@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
     private String[][] mTechLists;
     
     private IaikCryptaTag crypta_;
+    private ActYubiKey _yubikey;
     
     
     //UI
@@ -162,6 +163,7 @@ public class MainActivity extends Activity {
         
         try {
 			crypta_ = new IaikCryptaTag(tag);
+			//_yubikey = new YubiKey(tag);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,8 +187,8 @@ public class MainActivity extends Activity {
 	        startActivity(intent);
 	      break;
 	    case R.id.menuitem2:
-	      Toast.makeText(this, "Menu item 2 selected", Toast.LENGTH_SHORT)
-	          .show();
+	    	Intent intent1 = new Intent(this, ActYubiKey.class);
+	        startActivity(intent1);
 	      break;
 
 	    default:

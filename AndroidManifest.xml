@@ -20,6 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.nfc_start.DhKeyAgreement"
+            android:label="@string/title_activity_dh_key_agreement"
+            android:parentActivityName="com.nfc_start.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nfc_start.MainActivity" />
+        </activity>
         <activity android:name="com.nfc_start.TagViewer" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
@@ -33,14 +41,9 @@
                 <action android:name="android.nfc.action.TAG_DISCOVERED" />
             </intent-filter>
         </activity>
-        
         <activity
-            android:name="com.nfc_start.DhKeyAgreement"
-            android:label="@string/title_activity_dh_key_agreement" 
-            android:parentActivityName="com.nfc_start.MainActivity" >
-            <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.nfc_start.MainActivity" />
+            android:name="com.nfc_start.ActYubiKey"
+            android:label="@string/title_activity_yubi_key" >
         </activity>
     </application>
 
