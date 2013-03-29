@@ -79,16 +79,22 @@ public class ActYubiKey extends Activity {
 	public void yubiEncrypt(View view){
 		byte[] response;
 		if(_yubikey != null){
+			try{
 			response = _yubikey.encrypt(null);
 			
 			tf_yubi.setText(Utils.byteArrayToHexString(response));
 			Log.d("nfc", Utils.byteArrayToHexString(response));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public void yubiDecrypt(View view){
 		byte[] response;
 		if(_yubikey != null){
+			try{
 			String test = tf_yubi.getText().toString();
 			Log.d("nfcdec",test);
 			byte[] cipher = tf_yubi.getText().toString().getBytes();
@@ -99,6 +105,10 @@ public class ActYubiKey extends Activity {
 			}
 			response = _yubikey.decrypt(ci);
 			tf_yubi.setText(Utils.byteArrayToHexString(response));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
