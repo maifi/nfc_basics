@@ -45,6 +45,10 @@
             android:name="com.nfc_start.ActYubiKey"
             android:label="@string/title_activity_yubi_key" >
         </activity>
+        <activity
+            android:name="com.nfc_start.DHYubikey"
+            android:label="@string/title_activity_dhyubikey" >
+        </activity>
     </application>
 
 </manifest>

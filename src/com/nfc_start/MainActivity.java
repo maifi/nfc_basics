@@ -190,6 +190,10 @@ public class MainActivity extends Activity {
 	    	Intent intent1 = new Intent(this, ActYubiKey.class);
 	        startActivity(intent1);
 	      break;
+	    case R.id.menuitem3:
+	    	Intent intent2 = new Intent(this, DHYubikey.class);
+	        startActivity(intent2);
+	      break;
 
 	    default:
 	      break;

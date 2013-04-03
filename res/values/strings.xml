@@ -7,5 +7,6 @@
     <string name="title_activity_dh_key_agreement">DhKeyAgreement</string>
     <string name="title_activity_yubi_key">YubiKey</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_dhyubikey">DHYubikey</string>
 
 </resources>

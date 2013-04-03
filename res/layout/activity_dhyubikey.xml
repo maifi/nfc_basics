@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dhyubi"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DHYubikey" >
+
+
+        <ScrollView
+    	android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            
+                <Button
+        android:id="@+id/button_signData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="signData"
+        android:text="Sign Data" />
+
+    <EditText
+        android:id="@+id/tf_signedData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+    </EditText>
+                    <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DH AES key tag" />
+
+        <EditText
+            android:id="@+id/tf_originalData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DH AES key " />
+        </LinearLayout>
+            
+        </ScrollView>
+
+</LinearLayout>

@@ -10,7 +10,13 @@
         android:id="@+id/menuitem2"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="Menu2"/>
+        android:title="aes-yubi"/>
+        
+        <item
+        android:id="@+id/menuitem3"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="DH-Yubi"/>
         
     <item
         android:id="@+id/action_settings"

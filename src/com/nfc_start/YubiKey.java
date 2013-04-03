@@ -125,6 +125,34 @@ public class YubiKey implements ITag {
 
 		return response;
 	}
+	
+	@Override
+	public byte[] sign(byte[] data){
+		byte[] response = new byte[256];
+		
+		byte[] SIGN = {
+				(byte) 0x00,
+				// CLA
+				(byte) 0x05, // INS Instruction
+				(byte) 0x00, // P1 Parameter 1
+				(byte) 0x00, // P2 Parameter 2
+				(byte) 0x10, // Length
+				(byte) 1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,
+				(byte) 0x10
+				};
+		
+		try {
+			response = this.currentIsoDep
+					.transceive(SIGN);
+		} catch (IOException e) {
+			Log.e("NFC-CryptoTag", "NFC: IOException caught during transceive(): "
+					+ e.getMessage());
+			return null;
+		}
+		Log.d("NFC-CryptoTag", "SIGN sent");
+
+		return response;
+	}
 
 	@Override
 	public ESDHPublicKey getPublicKey() {
@@ -144,10 +172,5 @@ public class YubiKey implements ITag {
 		return null;
 	}
 
-	@Override
-	public byte[] sign(byte[] data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
